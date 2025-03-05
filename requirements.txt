@@ -1,0 +1,6 @@
+asgiref==3.8.1
+click==8.1.8
+Django==5.1.5
+djhtml==3.0.7
+h11==0.14.0
+sqlparse==0.5.3
