@@ -30,7 +30,7 @@ class RegisterView(FormView):
 
 class AllUsersView(View):
     def get(self, request):
-        users_list = CustomUser.objects.filter(is_active=True)
+        users_list = CustomUser.objects.filter(is_active=True).order_by("id")
         paginator = Paginator(users_list, 5)
         
         page_number = request.GET.get("page") 

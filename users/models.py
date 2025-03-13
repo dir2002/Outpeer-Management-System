@@ -11,13 +11,13 @@ class CustomUser(AbstractUser):
     USER_ROLE = [
         ('Студент', 'Студент'),
         ('Менеджер', 'Менеджер'),
-        ('Администратор', 'Администратор')
+        ('Администратор', 'Администратор'),
+        ('Учитель', 'Учитель'),
     ]
     email = models.EmailField(unique=True, verbose_name='Электронная почта')
     username = models.CharField(max_length=150, unique=True, blank=True, null=True)
     first_name = models.CharField(max_length=20, verbose_name='Имя')
     last_name = models.CharField(max_length=50, verbose_name='Фамилия')
-    course_position = models.CharField(max_length=100, verbose_name='Название курса/отдела')
     role = models.CharField(max_length=15, choices=USER_ROLE, verbose_name='Роль')
     is_active = models.BooleanField(default=False)
 

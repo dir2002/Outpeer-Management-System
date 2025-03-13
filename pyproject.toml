@@ -5,6 +5,10 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "django>=5.1.6",
-    "psycopg>=3.2.5",
+   "asgiref==3.8.1",
+   "django==5.1.6",
+   "djangorestframework==3.15.2",
+   "psycopg==3.2.5",
+   "sqlparse==0.5.3",
 ]
+

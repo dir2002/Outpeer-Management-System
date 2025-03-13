@@ -7,13 +7,18 @@
     <div class="ms-3">
         <br>
         <table class="table w-50">
-        <tr><th>Имя</th><th>Фамилия</th><th>Email</th><th>Курс/отдел</th><th>Статус</th></tr>
+        <tr><th>ID</th><th>Имя</th><th>Фамилия</th><th>Email</th><th>Посещает курсы</th><th>Статус</th></tr>
         {% for user in users %}
             <tr>
+                <td>{{ user.id }}</td>
                 <td>{{ user.first_name }}</td>
                 <td>{{ user.last_name }}</td>
                 <td>{{ user.email }}</td>
-                <td>{{ user.course_position }}</td>
+                <td>{% for course in user.courses.all %}
+                    <li>{{ course.course_name }}</li>
+                {% empty %}
+                    -
+                {% endfor %}</td>
                 <td>{{ user.role }}</td>
             </tr>
         {% endfor %}
@@ -35,7 +40,7 @@
                   
         </div>
         <br>
-        <a href="{% url 'home' %}" class="btn btn btn-outline-primary">На Главную</a>
+        <a href="{% url 'home' %}" class="btn btn-outline-primary">На Главную</a>
     </div>
     
 
