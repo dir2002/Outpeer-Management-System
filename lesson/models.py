@@ -16,4 +16,4 @@ class Lesson(models.Model):
         ]
     
     def __str__(self):
-        return f'{self.course}-{self.lesson_date}-{self.lesson_name}-{self.hw_deadline}'
+        return f'{self.course_name}-{self.lesson_date}-{self.lesson_name}'
