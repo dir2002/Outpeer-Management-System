@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework.decorators import api_view
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, UpdateAPIView, DestroyAPIView
 
 from .serializers import LessonSerializer, LessonCreateUpdateSerializer
@@ -9,46 +9,47 @@ from courses.models import Course
 from .models import Lesson
 
 
-class CourseListApiView(ListAPIView):
-    serializer_class = CourseListSerializer
-    queryset = Course.objects.all()
-   
-class LessonCourseApiView(APIView):
-    def get(self, request, course_name):
-        course = Course.objects.get(course_name=course_name)
-        lessons = Lesson.objects.filter(course=course)
-        serializer = LessonSerializer(lessons, many=True)
-        return Response(serializer.data)
-    
-class LessonDetailRetrieveApiView(RetrieveAPIView):
-    queryset = Lesson.objects.all()
-    serializer_class = LessonSerializer
-    lookup_field = 'lesson_name'
-   
-class CreateLessonsCreateAPIView(CreateAPIView):
-    queryset = Lesson.objects.all()
-    serializer_class = LessonCreateUpdateSerializer
-  
+@api_view(['GET'])
+def courses_list(request):
+    courses = Course.objects.all()
+    serializer = CourseListSerializer(courses, many=True)
+    return Response(serializer.data, status=200)
 
-class UpdateLessonUpdateApiView(UpdateAPIView):
-    queryset = Lesson.objects.all()
-    serializer_class = LessonCreateUpdateSerializer
-    
-    def get_object(self):
-        course_name = self.request.data.get("course")
-        lesson_name = self.request.data.get("lesson_name")
-        course = get_object_or_404(Course, course_name=course_name)
-        lesson = get_object_or_404(Lesson, course=course, lesson_name=lesson_name)
-        return lesson
-            
+@api_view(['GET'])
+def course_lesson(request, course_id):
+    course = get_object_or_404(Course, pk=course_id)
+    lessons = Lesson.objects.filter(course_name=course)
+    serializer = LessonSerializer(lessons, many=True)
+    return Response(serializer.data, status=200)
 
-class DeleteLessonDestroyAPIView(DestroyAPIView):
-    serializer_class = LessonSerializer
-    
-    def get_object(self):
-        course_name = self.kwargs.get("course_name")
-        lesson_name = self.kwargs.get("lesson_name")
-        course = get_object_or_404(Course, course_name=course_name)
-        return get_object_or_404(Lesson, course=course, lesson_name=lesson_name)
-    
+@api_view(['GET'])
+def lesson_detail(request, lesson_id):
+    lesson = get_object_or_404(Lesson, pk=lesson_id)
+    serializer = LessonSerializer(lesson)
+    return Response(serializer.data, status=200)
+
+@api_view(['POST'])
+def create_lesson(request):
+    is_many = isinstance(request.data, list)
+    serializer = LessonCreateUpdateSerializer(data=request.data, many=is_many)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=201)
+    return Response(serializer.errors, status=400)
+
+@api_view(['PUT', 'PATCH'])
+def update_lesson(request, lesson_id):
+    lesson = get_object_or_404(Lesson, id=lesson_id)
+    serializer = LessonCreateUpdateSerializer(lesson, data=request.data, partial=request.method == 'PATCH')
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=200)
+    return Response(serializer.errors, status=400)
+
+@api_view(['DELETE'])
+def delete_lesson(request, lesson_id):
+    lesson = get_object_or_404(Lesson, id=lesson_id)
+    lesson.delete()
+    return Response(status=204)
         

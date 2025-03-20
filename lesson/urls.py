@@ -1,12 +1,12 @@
 from django.urls import path, include
-from lesson.views import (CourseListApiView, LessonCourseApiView, LessonDetailRetrieveApiView, 
-                          CreateLessonsCreateAPIView, UpdateLessonUpdateApiView, DeleteLessonDestroyAPIView)
+from lesson.views import (courses_list, course_lesson, lesson_detail, 
+                         create_lesson, update_lesson, delete_lesson)
 
 urlpatterns = [
-    path('courses/', CourseListApiView.as_view(), name='courses-list'),
-    path('course/<str:course_name>/', LessonCourseApiView.as_view(), name='course-lessons-list'),
-    path('lesson/<str:lesson_name>/', LessonDetailRetrieveApiView.as_view(), name='lesson-detail'),
-    path('create/', CreateLessonsCreateAPIView.as_view(), name='create-lesson'),
-    path('update/', UpdateLessonUpdateApiView.as_view(), name='update-lesson'),
-    path('delete/<str:course_name>/<str:lesson_name>/', DeleteLessonDestroyAPIView.as_view(), name='delete-lesson'),
+    path('courses/', courses_list, name='courses-list'),
+    path('courses/<int:course_id>/', course_lesson, name='course-lessons-list'),
+    path('lesson/<int:lesson_id>/', lesson_detail, name='lesson-detail'),
+    path('create/', create_lesson, name='create-lesson'),
+    path('update/<int:lesson_id>/', update_lesson, name='update-lesson'),
+    path('delete/<int:lesson_id>/', delete_lesson, name='delete-lesson'),
 ]

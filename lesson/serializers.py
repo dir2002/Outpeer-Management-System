@@ -7,18 +7,18 @@ from courses.models import Course
 
 
 class LessonSerializer(serializers.ModelSerializer):
-    course = serializers.SlugRelatedField(slug_field='course_name', queryset=Course.objects.all())
+    course_name = serializers.SlugRelatedField(slug_field='course_name', queryset=Course.objects.all())
 
     class Meta:
         model = Lesson
-        fields = ['id', 'course', 'lesson_date', 'lesson_name', 'additional_materials', 'homework', 'hw_deadline']
+        fields = ['id', 'course_name', 'lesson_date', 'lesson_name', 'additional_materials', 'homework', 'hw_deadline']
 
 class LessonCreateUpdateSerializer(serializers.ModelSerializer):
-    course = serializers.SlugRelatedField(slug_field='course_name', queryset=Course.objects.all())
+    course_name = serializers.SlugRelatedField(slug_field='course_name', queryset=Course.objects.all())
 
     class Meta:
         model = Lesson
-        fields = ['course', 'lesson_date', 'lesson_name', 'additional_materials', 'homework', 'hw_deadline']
+        fields = ['course_name', 'lesson_date', 'lesson_name', 'additional_materials', 'homework', 'hw_deadline']
     
 # В качестве тестовой логики для override функций create и update добавил автоматическое проставление срока сдачи домашнего задания 
 # при создании или обновлении урока, если он не был передан в запросе

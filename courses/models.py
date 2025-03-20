@@ -2,7 +2,7 @@ from django.db import models
 from users.models import CustomUser
 
 class Course(models.Model):
-    course_name = models.CharField(max_length=100, verbose_name='Наименование курса')
+    course_name = models.CharField(max_length=100, verbose_name='Наименование курса', unique=True)
     description = models.TextField(verbose_name="Описание курса")
     participants = models.ManyToManyField(CustomUser, verbose_name='Участники курса', related_name='courses')
      
