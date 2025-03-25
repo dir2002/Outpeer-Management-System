@@ -1,11 +1,11 @@
-
 from django.shortcuts import render, redirect
 from django.views.generic.edit import FormView
 from django.views import View
-from .forms import RegistrationForm
-from .models import EmailActivation, CustomUser
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator
+
+from .forms import RegistrationForm
+from .models import EmailActivation, CustomUser
 
 def home(request):
     return render(request, 'users/home.html')

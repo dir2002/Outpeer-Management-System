@@ -7,10 +7,17 @@ from django.shortcuts import get_object_or_404
 from .models import Course
 from users.models import CustomUser
 from .serializers import CourseSerializer, CourseReadSerializer
+from lesson.permissions import IsManager
 
 
 class CourseManageAPIView(APIView):
+
+    def get_permissions(self):
+        if self.request.method == 'POST':
+           return[IsManager()]
+        return super().get_permissions()
     
+
     def get(self, request, course_id=None):
         if course_id:
             course = get_object_or_404(Course, pk=course_id)  

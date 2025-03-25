@@ -7,6 +7,8 @@ urlpatterns = [
     path('', include('users.urls')),
     path('api-courses/', include('courses.urls')),
     path('api-lesson/', include('lesson.urls')),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.jwt')),
 ]
 
 
