@@ -102,7 +102,7 @@ DATABASES = {
         'NAME': 'outpeer_users',  
         'USER': 'postgres', 
         'PASSWORD': 'postgres', 
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }

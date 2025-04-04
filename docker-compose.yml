@@ -1,0 +1,44 @@
+services:
+
+  app:    
+    build: .
+    container_name: course_management_app
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DEBUG=1
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/outpeer_users
+    volumes:
+      - .:/app
+    networks:
+      - default
+    
+  db:
+    image: postgres:alpine
+    container_name: course_management_db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=outpeer_users
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      retries: 5
+    networks: 
+      - default  
+
+volumes:
+  db_data:
+
+networks:
+  default:
+    driver: bridge
+    
